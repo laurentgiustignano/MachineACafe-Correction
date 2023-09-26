@@ -1,42 +1,39 @@
-import {createElement, injectElements, injectResultats, renewTag} from "./functions/dom.js";
-import {recettes} from "./api/coffee.js";
+import {createElement, injectInput, renewTag} from "./functions/dom.js";
+import {checkCafe} from "./api/coffee.js";
 
 const wrapper = document.querySelector('#controle')
 
-function etape2() {
-    const labelSasie = createElement('label', {for: 'saisie'})
-    labelSasie.innerText = "Nombre de tasses de café : "
-    const saisie = createElement('input', {type: 'text', id: 'saisie'})
-    wrapper.prepend(saisie)
-    wrapper.prepend(labelSasie)
+
+function etape3() {
+
+    injectInput(wrapper, 'saisieWater', "Quantité d'eau : ")
+    injectInput(wrapper, 'saisieMilk', "Quantité de lait : ")
+    injectInput(wrapper, 'saisieCoffee', "Quantité de café : ")
+
     const buttonCalcul = document.querySelector('#start')
     buttonCalcul.innerText = "Calculer"
 
 }
 
-function calculEtape2() {
-    const resultat = [
-        {ingredient: 'water', quantite: 0, message: " ml d'eau"},
-        {ingredient: 'milk', quantite: 0, message: " ml de lait"},
-        {ingredient: 'coffee', quantite: 0, message: " g de grains de café"}]
+function calculEtape3() {
 
-    const nombreTasse = document.querySelector('#saisie').value * 1
-    const {ingredients} = recettes.find((nom) => nom.title === "cafe")
+    const quantiteEau = Number(document.querySelector('#saisieWater').value)
+    const quantiteLait = Number(document.querySelector('#saisieMilk').value)
+    const quantiteCafe = Number(document.querySelector('#saisieCoffee').value)
 
-    for (let ingredientsKey in ingredients) {
-        resultat.find((element) => {
-            if(element.ingredient === ingredientsKey)
-                element.quantite = ingredients[ingredientsKey] * nombreTasse
-        })
-    }
+    const retour = checkCafe(quantiteEau, quantiteLait, quantiteCafe)
+    console.log(retour)
+
     const listeResultat = renewTag('ul');
     wrapper.append(listeResultat)
-
-    injectResultats(resultat, listeResultat)
+    const resultat = createElement('li')
+    const unS = retour > 1 ? "s" : ""
+    resultat.innerText = `Avec ces ingrédient, je peux faire ${retour} café${unS}`
+    listeResultat.append(resultat)
 
 }
 
-document.querySelector('#start').addEventListener('click', calculEtape2)
-etape2()
+document.querySelector('#start').addEventListener('click', calculEtape3)
+etape3()
 
 

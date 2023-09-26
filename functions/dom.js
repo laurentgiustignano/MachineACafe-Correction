@@ -49,6 +49,19 @@ export async function injectResultats(lesMessages, laListe) {
        // await delay(value.duree * 1000)
     }
 }
+/**
+ * Injecte des éléments de type li
+ * @param wrapper
+ * @param id
+ * @param message
+ */
+export function injectInput(wrapper, id, message) {
+    const labelSaisieWater = createElement('label', {for: id})
+    labelSaisieWater.innerText = message
+    const saisieWater = createElement('input', {type: 'text', id: id})
+    wrapper.prepend(saisieWater)
+    wrapper.prepend(labelSaisieWater)
+}
 
 /**
  * Supprime si nécessaire un tag, puis le recréé
