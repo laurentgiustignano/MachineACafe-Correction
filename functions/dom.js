@@ -21,6 +21,7 @@ export function createElement(tagName, attributes = {}) {
     return element
 }
 
+
 /**
  * Injecte des éléments de type li
  * @param {[Etape]}lesEtapes
@@ -32,6 +33,20 @@ export async function injectElements(lesEtapes, laListe) {
         liListe.innerText = value.title
         laListe.append(liListe)
         await delay(value.duree * 1000)
+    }
+}
+
+/**
+ * Injecte des éléments de type li
+ * @param lesMessages
+ * @param {HTMLElement}laListe
+ */
+export async function injectResultats(lesMessages, laListe) {
+    for (let value of Object.values(lesMessages)) {
+        let liListe = createElement('li')
+        liListe.innerText = `${value.quantite}${value.message}`
+        laListe.append(liListe)
+       // await delay(value.duree * 1000)
     }
 }
 

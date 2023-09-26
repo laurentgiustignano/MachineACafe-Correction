@@ -1,25 +1,42 @@
-import {injectElements, renewTag} from "./functions/dom.js";
+import {createElement, injectElements, injectResultats, renewTag} from "./functions/dom.js";
+import {recettes} from "./api/coffee.js";
 
 const wrapper = document.querySelector('#controle')
 
-function start() {
-
-    const etapes = [
-        {title: "Commence à faire le café", duree: 1},
-        {title: "Mouds les grains de café", duree: 3},
-        {title: "Fait chauffer l'eau", duree: 4},
-        {title: "Infuse les grains de café moulus", duree: 5},
-        {title: "Verse le café dans une tasse", duree: 3},
-        {title: "Ajoute un peu de lait dans la tasse", duree: 2},
-        {title: "Le café est terminé.", duree: 1}]
-
-    const laListe = renewTag('ul');
-    wrapper.append(laListe)
-
-    injectElements(etapes, laListe)
+function etape2() {
+    const labelSasie = createElement('label', {for: 'saisie'})
+    labelSasie.innerText = "Nombre de tasses de café : "
+    const saisie = createElement('input', {type: 'text', id: 'saisie'})
+    wrapper.prepend(saisie)
+    wrapper.prepend(labelSasie)
+    const buttonCalcul = document.querySelector('#start')
+    buttonCalcul.innerText = "Calculer"
 
 }
 
-document.querySelector('#start').addEventListener('click', start)
+function calculEtape2() {
+    const resultat = [
+        {ingredient: 'water', quantite: 0, message: " ml d'eau"},
+        {ingredient: 'milk', quantite: 0, message: " ml de lait"},
+        {ingredient: 'coffee', quantite: 0, message: " g de grains de café"}]
+
+    const nombreTasse = document.querySelector('#saisie').value * 1
+    const {ingredients} = recettes.find((nom) => nom.title === "cafe")
+
+    for (let ingredientsKey in ingredients) {
+        resultat.find((element) => {
+            if(element.ingredient === ingredientsKey)
+                element.quantite = ingredients[ingredientsKey] * nombreTasse
+        })
+    }
+    const listeResultat = renewTag('ul');
+    wrapper.append(listeResultat)
+
+    injectResultats(resultat, listeResultat)
+
+}
+
+document.querySelector('#start').addEventListener('click', calculEtape2)
+etape2()
 
 
