@@ -21,7 +21,7 @@ li {
 button {
     align-items: flex-start;
     background-color: rgb(69, 130, 236);
-    border-color: rgb(69, 130, 236);;
+    border-color: rgb(69, 130, 236);
     border-style: solid;
     border-width: 1px;
     border-radius: 15px;
@@ -36,4 +36,17 @@ button {
     line-height: 21px;
     margin: 3px;
     padding: 5px;
+}
+
+#Latte {
+    background-color: #996600;
+    border-color: #996600;
+}
+#Expresso {
+    background-color: #664400;
+    border-color: #664400;
+}
+#Cappuccino {
+    background-color: #CC8800;
+    border-color: #CC8800;
 }

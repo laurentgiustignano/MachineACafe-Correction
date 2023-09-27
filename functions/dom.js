@@ -1,12 +1,4 @@
 /**
- * Mes définitions
- * @typedef {title: string, duree: number} Etape
- * @property {string} title
- * @property {number} duree
- */
-
-
-/**
  *
  * @param {string} tagName
  * @param {object} attributes
@@ -21,39 +13,39 @@ export function createElement(tagName, attributes = {}) {
     return element
 }
 
-
 /**
- * Injecte des éléments de type li
- * @param {[Etape]}lesEtapes
- * @param {HTMLElement}laListe
+ * Injecte les <button> en fonction de l'id
+ * @param conteneur
+ * @param {string} id
  */
-export async function injectElements(lesEtapes, laListe) {
-    for (let value of Object.values(lesEtapes)) {
-        let liListe = createElement('li')
-        liListe.innerText = value.title
-        laListe.append(liListe)
-        await delay(value.duree * 1000)
-    }
+export function injectButton(conteneur, id) {
+    const newButton = createElement('button', {id: id})
+    newButton.innerText = id
+    conteneur.prepend(newButton)
 }
 
 /**
- * Injecte des éléments de type li
- * @param lesMessages
- * @param {HTMLElement}laListe
+ * Injecte les <li> pour l'affichage à partir de lesMessages
+ * @param {Array[string]} lesMessages
+ * @param laListe
+ * @return {Promise<void>}
  */
 export async function injectResultats(lesMessages, laListe) {
-    for (let value of Object.values(lesMessages)) {
+
+    lesMessages.forEach((element) => {
+        console.log(element)
         let liListe = createElement('li')
-        liListe.innerText = `${value.quantite}${value.message}`
+        liListe.innerText = element
         laListe.append(liListe)
-       // await delay(value.duree * 1000)
-    }
+    })
+
 }
+
 /**
- * Injecte des éléments de type li
- * @param wrapper
- * @param id
- * @param message
+ * Injecte des éléments de type input dans le wrapper
+ * @param wrapper référence de l'élément parent
+ * @param id identifiant de l'élément
+ * @param message texte du label associé
  */
 export function injectInput(wrapper, id, message) {
     const labelSaisieWater = createElement('label', {for: id})
@@ -77,15 +69,12 @@ export function renewTag(tagName) {
 }
 
 /**
- * Permet d'ajouter un délai avant un traitement
- * @param {Number} duree en ms
- * @return {Promise<unknown>}
+ * Supprime les éléments à partir d'une className
+ * @param {string} className
  */
-function delay(duree) {
-    duree = duree || 2000;
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve()
-        }, duree);
-    });
+export function removeClass(className) {
+    const element = document.querySelector(className)
+    if (element !== null) {
+        element.remove()
+    }
 }
